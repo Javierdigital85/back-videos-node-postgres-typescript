@@ -4,7 +4,7 @@ import globalConstants from "./conts/globalContants";
 
 const port = process.env.PORT || globalConstants.PORT;
 
-db.sync({ force: false }).then(() => {
+db.sync({ force: true }).then(() => {
   app.listen(port, () => {
     console.log(`El puerto es ${port}`);
   });
