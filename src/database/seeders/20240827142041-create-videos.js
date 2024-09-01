@@ -7,23 +7,23 @@ module.exports = {
       "videos",
       [
         {
-          title: "Introduction to Node.js",
-          description: "the guide for backend",
-          url: "https://www.youtube.com/watch?v=o4IDSveslTg",
+          title: "Music",
+          description: "Mario Jazz",
+          url: "https://www.youtube.com/watch?v=ZuwTd8wvff0&t=1010s",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Proyectos para todo Programador y Desarrollador de Software",
-          description: "projects",
-          url: "https://www.youtube.com/watch?v=WRob5Z0XRd4",
+          title: "Music",
+          description: "Mario jazz 2",
+          url: "https://www.youtube.com/watch?v=F1xZ_uK2M6c&t=36s",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          title: "Sequelize",
-          description: "configuracion con sequelize",
-          url: "https://www.youtube.com/watch?v=VyEKwp6Q4fY",
+          title: "Music",
+          description: "Jazz lofi",
+          url: "https://www.youtube.com/watch?v=-R0UYHS8A_A",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -33,6 +33,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.bulkDelete("People", null, {});
+    await queryInterface.bulkDelete("videos", null, {});
   },
 };

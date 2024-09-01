@@ -1,10 +1,9 @@
 import app from "./app";
 import db from "./config/database";
-import globalConstants from "./conts/globalContants";
 
-const port = process.env.PORT || globalConstants.PORT;
+const port = process.env.PORTDEV || process.env.PORT;
 
-db.sync({ force: true }).then(() => {
+db.sync({ force: false }).then(() => {
   app.listen(port, () => {
     console.log(`El puerto es ${port}`);
   });
