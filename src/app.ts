@@ -2,11 +2,17 @@ import express, { Express } from "express";
 import routerConfig from "./routes/index";
 import morgan from "morgan";
 import cors from "cors";
+import globalConstants from "./conts/globalContants";
 
 const apiConfiguration = (app: Express) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cors());
+  app.use(
+    cors({
+      origin: globalConstants.FRONTEND_URL || "http://localhost:5173",
+    })
+  );
+  console.log(globalConstants.FRONTEND_URL);
   app.use(morgan("tiny"));
 };
 const routerConfiguration = (app: Express) => {
