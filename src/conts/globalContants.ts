@@ -19,7 +19,7 @@ interface Config {
   SECRETDEV?: string;
   DB_PASSWORD?: string;
   DB_PASSWORDDEV?: string;
-  FRONTEND_URL?: string;
+  FRONTEND_URL: string;
 }
 
 const config: Config = {
@@ -36,7 +36,7 @@ const config: Config = {
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_NAME: process.env.DB_NAME,
   SECRET: process.env.SECRET,
-  FRONTEND_URL: process.env.FRONTEND_URL,
+  FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
   // ENTORNO DEV
   DIALECTDEV: process.env.DIALECT as
     | "postgres"

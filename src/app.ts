@@ -4,14 +4,11 @@ import morgan from "morgan";
 import cors from "cors";
 import globalConstants from "./conts/globalContants";
 
+const allowedOrigins = ["http://localhost:5173", globalConstants.FRONTEND_URL];
 const apiConfiguration = (app: Express) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(
-    cors({
-      origin: globalConstants.FRONTEND_URL || "http://localhost:5173",
-    })
-  );
+  app.use(cors({ origin: allowedOrigins }));
   app.use(morgan("tiny"));
 };
 const routerConfiguration = (app: Express) => {
