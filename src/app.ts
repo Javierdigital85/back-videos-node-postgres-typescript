@@ -12,7 +12,6 @@ const apiConfiguration = (app: Express) => {
       origin: globalConstants.FRONTEND_URL || "http://localhost:5173",
     })
   );
-  console.log(globalConstants.FRONTEND_URL);
   app.use(morgan("tiny"));
 };
 const routerConfiguration = (app: Express) => {
