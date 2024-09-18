@@ -12,16 +12,17 @@ export const findVideo = async (url: string): Promise<Video | null> => {
 export const createVideo = async (
   title: string,
   description: string,
-  url: string
+  url: string,
+  userId: number
 ): Promise<Video> => {
-  return await Video.create({ title, description, url });
+  return await Video.create({ title, description, url, userId });
 };
 
 export const allVideos = async (): Promise<Video[]> => {
   return await Video.findAll();
 };
 
-export const update = async (
+export const updateVideo = async (
   id: number,
   updateData: VideoI
 ): Promise<Video | null> => {

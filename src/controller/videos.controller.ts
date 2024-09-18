@@ -1,16 +1,22 @@
 import { RequestHandler } from "express";
 import * as videoService from "../service/video.service";
 import { UniqueConstraintError } from "sequelize";
+import { Video } from "../models";
 
 export const createVideo: RequestHandler = async (req, res) => {
   try {
-    const { url, description, title } = req.body;
+    const { url, description, title, userId } = req.body;
     const foundVideo = await videoService.findVideo(url);
     if (foundVideo) {
       return res.status(400).send("This video Already exists!");
     }
 
-    const newVideo = await videoService.createVideo(title, description, url);
+    const newVideo = await videoService.createVideo(
+      title,
+      description,
+      url,
+      userId
+    );
     return res.status(201).send(newVideo);
   } catch (error) {
     if (error instanceof UniqueConstraintError) {
@@ -21,9 +27,17 @@ export const createVideo: RequestHandler = async (req, res) => {
 };
 
 export const getVideos: RequestHandler = async (req, res) => {
+  let video;
   try {
-    const allVideos = await videoService.allVideos();
-    return res.status(200).send(allVideos);
+    //Puedes usar req.query para recibir filtros de búsqueda
+    const { userId } = req.query; //obtengo por clave y valor lo que envia el front por parametro.
+    const userIdNumber = userId ? parseInt(userId as string, 10) : undefined;
+    if (userIdNumber) {
+      video = await Video.findAll({ where: { userId: userId } });
+    } else {
+      video = await videoService.allVideos();
+    }
+    return res.status(200).send(video);
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -33,7 +47,7 @@ export const updateVideo: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, url } = req.body;
-    const updatedVideo = await videoService.update(Number(id), {
+    const updatedVideo = await videoService.updateVideo(Number(id), {
       title,
       description,
       url,

@@ -1,9 +1,19 @@
 import { Model, DataTypes } from "sequelize";
 import db from "../config/database";
+import User from "./User";
+
 class Video extends Model {}
 
 Video.init(
   {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,11 +26,6 @@ Video.init(
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
-    },
-    author: {
-      // Nuevo atributo
-      type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   {

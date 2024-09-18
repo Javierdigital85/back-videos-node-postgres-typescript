@@ -7,6 +7,7 @@ module.exports = {
       "videos",
       [
         {
+          userId: 1,
           title: "Music",
           description: "Mario Jazz",
           url: "https://www.youtube.com/watch?v=ZuwTd8wvff0&t=1010s",
@@ -14,6 +15,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 2,
           title: "Music",
           description: "Mario jazz 2",
           url: "https://www.youtube.com/watch?v=F1xZ_uK2M6c&t=36s",
@@ -21,6 +23,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 3,
           title: "Music",
           description: "Jazz lofi",
           url: "https://www.youtube.com/watch?v=-R0UYHS8A_A",
