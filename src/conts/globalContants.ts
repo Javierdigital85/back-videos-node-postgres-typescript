@@ -40,7 +40,7 @@ const config: Config = {
   SECRET:
     process.env.SECRET ||
     (() => {
-      throw new Error("SECRETDEV in not defined");
+      throw new Error("SECRET in not defined");
     })(),
   FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
   // ENTORNO DEV
