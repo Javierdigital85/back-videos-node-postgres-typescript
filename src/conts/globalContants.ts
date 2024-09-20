@@ -16,7 +16,6 @@ interface Config {
   DB_USERNAME?: string;
   DB_USERNAMEDEV?: string;
   SECRET: string;
-  SECRETDEV: string;
   DB_PASSWORD?: string;
   DB_PASSWORDDEV?: string;
   FRONTEND_URL: string;
@@ -57,11 +56,6 @@ const config: Config = {
   DB_USERNAMEDEV: process.env.DB_USERNAMEDEV,
   DB_PASSWORDDEV: process.env.DB_PASSWORDDEV,
   DB_NAMEDEV: process.env.DB_NAMEDEV,
-  SECRETDEV:
-    process.env.SECRETDEV ||
-    (() => {
-      throw new Error("SECRETDEV in not defined");
-    })(),
   NODE_ENV: process.env.NODE_ENV,
   NODEMAILER_HOST:
     process.env.NODEMAILER_HOST ||
