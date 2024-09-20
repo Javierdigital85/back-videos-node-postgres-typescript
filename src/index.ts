@@ -8,3 +8,5 @@ db.sync({ force: false }).then(() => {
     console.log(`El puerto es ${port}`);
   });
 });
+
+console.log("puerto",port)
