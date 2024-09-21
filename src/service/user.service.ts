@@ -64,7 +64,7 @@ export const forgotPassword = async (email: string): Promise<string | null> => {
   );
   user.token = token; //asignamos el token
   await user.save();
-  const restorePasswordURL = `http://localhost:5173/repeat-password/${user.token}`;
+  const restorePasswordURL = `${globalConstants.FRONTEND_URL}/repeat-password/${user.token}`;
   // send mail with defined transport object
   await transporter.sendMail({
     from: `"Forgot password 👻" <${globalConstants.NODEMAILER_EMAIL}>`, // sender address
