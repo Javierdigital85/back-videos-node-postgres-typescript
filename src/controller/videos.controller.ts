@@ -43,6 +43,18 @@ export const getVideos: RequestHandler = async (req, res) => {
   }
 };
 
+export const search: RequestHandler = async (req, res) => {
+  const { queryVideo } = req.query;
+  console.log(req.query);
+  try {
+    //front accede con res.data. Tambien podemos enviarlo con un objeto {result}. Front seria res.data.result
+    const result = await videoService.searchVideos(queryVideo as string);
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+
 export const updateVideo: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;

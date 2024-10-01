@@ -1,4 +1,6 @@
+import { Op } from "sequelize";
 import Video from "../models/Video";
+
 interface VideoI {
   title: string;
   description: string;
@@ -20,6 +22,18 @@ export const createVideo = async (
 
 export const allVideos = async (): Promise<Video[]> => {
   return await Video.findAll();
+};
+
+export const searchVideos = async (query: string): Promise<Video[]> => {
+  const results = await Video.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.iLike]: `%${query}%` } },
+        { description: { [Op.iLike]: `%${query}%` } },
+      ],
+    },
+  });
+  return results;
 };
 
 export const updateVideo = async (
