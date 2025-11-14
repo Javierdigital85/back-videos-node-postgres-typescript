@@ -33,7 +33,7 @@ export const getVideos: RequestHandler = async (req, res) => {
     const { userId } = req.query; //obtengo por clave y valor lo que envia el front por parametro.
     const userIdNumber = userId ? parseInt(userId as string, 10) : undefined;
     if (userIdNumber) {
-      video = await Video.findAll({ where: { userId: userId } });
+      video = await Video.findAll({ where: { userId: userIdNumber } });
     } else {
       video = await videoService.allVideos();
     }
@@ -59,11 +59,7 @@ export const updateVideo: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, url } = req.body;
-    const updatedVideo = await videoService.updateVideo(Number(id), {
-      title,
-      description,
-      url,
-    });
+    const updatedVideo = await videoService.updateVideo(Number(id), {title,description,url,});
     if (!updatedVideo) {
       return res.status(404).send("Task does not exist,nothing to update!");
     }

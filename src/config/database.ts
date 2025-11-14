@@ -12,6 +12,7 @@ if (globalContants.NODE_ENV === "development") {
     database: globalContants.DB_NAMEDEV,
     logging: false,
   });
+  console.log("esto es desarrollo")
 } else {
   sequelize = new Sequelize({
     dialect: globalContants.DIALECT || "postgres",
@@ -22,6 +23,7 @@ if (globalContants.NODE_ENV === "development") {
     database: globalContants.DB_NAME,
     logging: false,
   });
+  console.log("esto es produccion")
 }
 
 export default sequelize;
