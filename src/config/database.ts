@@ -12,7 +12,7 @@ if (globalContants.NODE_ENV === "development") {
     database: globalContants.DB_NAMEDEV,
     logging: false,
   });
-  console.log("esto es desarrollo")
+  console.log("esto es desarrollo");
 } else {
   sequelize = new Sequelize({
     dialect: globalContants.DIALECT || "postgres",
@@ -22,8 +22,20 @@ if (globalContants.NODE_ENV === "development") {
     password: globalContants.DB_PASSWORD,
     database: globalContants.DB_NAME,
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
   });
-  console.log("esto es produccion")
+  console.log("esto es produccion");
 }
 
 export default sequelize;
