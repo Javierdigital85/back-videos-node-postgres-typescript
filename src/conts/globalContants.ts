@@ -31,6 +31,7 @@ interface Config {
   NODEMAILER_HOST: string;
   NODEMAILER_EMAIL: string;
   NODEMAILER_PASS: string;
+  RESEND_API_KEY?: string;
 }
 
 const config: Config = {
@@ -61,10 +62,13 @@ const config: Config = {
     ? optional("FRONTEND_URL", "http://localhost:5173")
     : required("FRONTEND_URL"),
 
-  // Email
-  NODEMAILER_HOST: required("NODEMAILER_HOST"),
-  NODEMAILER_EMAIL: required("NODEMAILER_EMAIL"),
-  NODEMAILER_PASS: required("NODEMAILER_PASS"),
+  // Email - Nodemailer (solo desarrollo)
+  NODEMAILER_HOST: optional("NODEMAILER_HOST", "smtp.gmail.com"),
+  NODEMAILER_EMAIL: optional("NODEMAILER_EMAIL", ""),
+  NODEMAILER_PASS: optional("NODEMAILER_PASS", ""),
+
+  // Email - Resend (solo producción)
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
 };
 
 export default config;
