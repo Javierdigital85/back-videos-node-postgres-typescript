@@ -1,23 +1,32 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
+// Helper para validar variables requeridas
+const required = (key: string): string => {
+  const value = process.env[key];
+  if (!value) {
+    throw new Error(`${key} is not defined in environment variables`);
+  }
+  return value;
+};
+
+// Helper para valores opcionales con default
+const optional = (key: string, defaultValue: string): string => {
+  return process.env[key] || defaultValue;
+};
+
 interface Config {
-  NODE_ENV?: string;
+  NODE_ENV: string;
   DIALECT: "postgres" | "mysql" | "sqlite" | "mariadb" | "mssql";
-  DIALECTDEV: "postgres" | "mysql" | "sqlite" | "mariadb" | "mssql";
-  HOST?: string;
-  HOSTDEV?: string;
+  HOST: string;
   DB_PORT: number;
-  DB_PORTDEV: number;
   PORT: number;
-  PORTDEV: number;
-  DB_NAME?: string;
-  DB_NAMEDEV?: string;
-  DB_USERNAME?: string;
-  DB_USERNAMEDEV?: string;
+  DB_NAME: string;
+  DB_USERNAME: string;
+  DB_PASSWORD: string;
   SECRET: string;
-  DB_PASSWORD?: string;
-  DB_PASSWORDDEV?: string;
   FRONTEND_URL: string;
   NODEMAILER_HOST: string;
   NODEMAILER_EMAIL: string;
@@ -25,54 +34,37 @@ interface Config {
 }
 
 const config: Config = {
-  DIALECT: process.env.DIALECT as
-    | "postgres"
-    | "mysql"
-    | "sqlite"
-    | "mariadb"
-    | "mssql",
-  HOST: process.env.HOST,
-  PORT: Number(process.env.PORT) || 5000,
-  DB_PORT: Number(process.env.DB_PORT),
-  DB_USERNAME: process.env.DB_USERNAME,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME,
-  SECRET:
-    process.env.SECRET ||
-    (() => {
-      throw new Error("SECRET in not defined");
-    })(),
-  FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
-  // ENTORNO DEV
-  DIALECTDEV: process.env.DIALECT as
-    | "postgres"
-    | "mysql"
-    | "sqlite"
-    | "mariadb"
-    | "mssql",
-  HOSTDEV: process.env.HOSTDEV,
-  PORTDEV: Number(process.env.PORTDEV) || 8000,
-  DB_PORTDEV: Number(process.env.DB_PORTDEV) || 5432,
-  DB_USERNAMEDEV: process.env.DB_USERNAMEDEV,
-  DB_PASSWORDDEV: process.env.DB_PASSWORDDEV,
-  DB_NAMEDEV: process.env.DB_NAMEDEV,
-  NODE_ENV: process.env.NODE_ENV,
-  NODEMAILER_HOST:
-    process.env.NODEMAILER_HOST ||
-    (() => {
-      throw new Error("NODEMAILER is not defined");
-    })(),
-  NODEMAILER_EMAIL:
-    process.env.NODEMAILER_EMAIL ||
-    (() => {
-      throw new Error("NODEMAILER_EMAIL is not defined");
-    })(),
-  NODEMAILER_PASS:
-    process.env.NODEMAILER_PASS ||
-    (() => {
-      throw new Error("NODEMAILER_PASS is not defined");
-    })(),
+  NODE_ENV: optional("NODE_ENV", "development"),
+  DIALECT: optional("DIALECT", "postgres") as Config["DIALECT"],
+
+  // Database - diferentes valores según entorno
+  HOST: isDevelopment ? optional("HOST", "localhost") : required("HOST"),
+  DB_PORT: Number(optional("DB_PORT", "5432")),
+  DB_NAME: isDevelopment
+    ? optional("DB_NAME", "postgres")
+    : required("DB_NAME"),
+  DB_USERNAME: isDevelopment
+    ? optional("DB_USERNAME", "postgres")
+    : required("DB_USERNAME"),
+  DB_PASSWORD: isDevelopment
+    ? optional("DB_PASSWORD", "")
+    : required("DB_PASSWORD"),
+
+  // Server
+  PORT: Number(optional("PORT", isDevelopment ? "8000" : "5000")),
+
+  // Security
+  SECRET: required("SECRET"),
+
+  // Frontend
+  FRONTEND_URL: isDevelopment
+    ? optional("FRONTEND_URL", "http://localhost:5173")
+    : required("FRONTEND_URL"),
+
+  // Email
+  NODEMAILER_HOST: required("NODEMAILER_HOST"),
+  NODEMAILER_EMAIL: required("NODEMAILER_EMAIL"),
+  NODEMAILER_PASS: required("NODEMAILER_PASS"),
 };
 
 export default config;
-//es mejor manejar los error lanzando un throw error que usar ? por ej: NODEMAILER_HOST?: string;
